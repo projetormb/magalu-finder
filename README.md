@@ -1,0 +1,2 @@
+# magalu-finder
+LuizaLabs Challenge
