@@ -1,4 +1,6 @@
 # magalu-finder
+
+
 LuizaLabs Challenge
 
 GESTOR DE LOJAS
