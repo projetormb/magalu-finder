@@ -1,24 +1,23 @@
 # magalu-finder
 
+----------------------------------------------------
 
-# The largest heading
-## The second largest heading
-###### The smallest heading
+## Funcionalidades
 
-
-In the words of Abraham Lincoln:
-
-> Pardon my French
+> GESTOR DE LOJAS
+> GESTOR DE PRODUTOS
+> PROCURAR PRODUTOS MAIS PROXIMOS CONFORME O CEP
 
 
-LuizaLabs Challenge
+webservice
+==========
+
+#### Instalando e executando o projeto:
+    $ git clone https://github.com/projetormb/magalu-finder.git
+ 
+    $ cd magalu-finder/
+ 
+    $ python apis.py runserver
 
 
-GESTOR DE LOJAS
-
-
-GESTOR DE PRODUTOS
-
-
-PROCURAR PRODUTOS MAIS PROXIMOS CONFORME O CEP
 
