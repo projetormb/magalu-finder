@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafio de API</title>
+    <link href="/static/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+
+        <h1>Desafio de API</h1>
+        <h2>Comunicando com o Twitter</h2>
+
+        <!-- espaçamento entre cabeçalhos e início das divs... meio xing ling mas resolve -->
+        <div style="padding-bottom:50px;">
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-6">
+                    <label>Selecione o usuário</label>
+                    <select class="form-control" name="userName" id="userName">
+                        <!--option value="rmbertoni">Rafael M. Bertoni</option>
+                        <option value="lupcoelho">Luciana P. Coelho</option-->
+
+                        {% for usuario in usuarios %}
+                          <option value=" {{ usuario.userID }} ">{{ usuario.userName }}</option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+                <div class="col-sm-6">
+                    <label>Selecione a quantidade máxima de tweets</label>
+                    <select class="form-control" name="maxTweets" id="maxTweets">
+                        <option value="5">5 tweets</option>
+                        <option value="10">10 tweets</option>
+                        <option value="15">15 tweets</option>
+                        <option value="20">20 tweets</option>
+                        <option value="25">25 tweets</option>
+                        <option value="30">30 tweets</option>
+                        <option value="35">35 tweets</option>
+                        <option value="40">40 tweets</option>
+                        <option value="45">45 tweets</option>
+                        <option value="50">50 tweets</option>
+                        <option value="100">100 tweets</option>
+                        <option value="150">150 tweets</option>
+                        <option value="200">200 tweets</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-lg btn-primary" id="btnCarregarTweets">Carregar Tweets</button>
+                </div>
+                
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-lg btn-success" id="btnNovaConsulta">Nova Consulta</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-12">
+                <div id="listaTweets" class="list-group">
+                    <!-- conteúdo aqui será substituído por jQuery + Ajax -->            
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/jquery-3.1.1.min.js"></script>
+    <script src="/static/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#btnNovaConsulta').hide();
+        });
+
+        $('#btnCarregarTweets').click(function() {
+
+            $('#listaTweets').append('<p> Carregando... aguarde ...');
+
+            $.ajax({
+                type: "POST",
+                url: "/api",
+                data: { 'maxTweets' : $('#maxTweets option:selected').val() ,
+                        'userName'  : $('#userName option:selected').val()
+                      },
+                success: searchSuccess,
+                dataType: 'json'
+            });
+
+            $(this).attr('disabled', true);
+            $('#maxTweets').attr('disabled', true);
+            $('#userName').attr('disabled', true);
+            $('#btnNovaConsulta').show();
+        });
+        
+        $('#btnNovaConsulta').click(function() {
+            $('#btnCarregarTweets').attr('disabled', false);
+            $('#maxTweets').attr('disabled', false);
+            $('#userName').attr('disabled', false);
+            $('#listaTweets').empty();
+            $(this).hide();
+        });
+
+        function searchSuccess(data, textStatus, jqXHR)
+        {
+            $('#listaTweets').empty();
+
+            $.each( data, function( key, value ) {
+                tweetHtml = '<a href="#" class="list-group-item">'
+                /*tweetHtml += '<h4 class="list-group-item-heading">' + 'algum cabeçalho ' + key + '</h4>' */
+                tweetHtml += '<p class="list-group-item-text">' + value + '</p></a>'
+
+                $('#listaTweets').append(tweetHtml);
+            });
+        }
+
+    </script>
+</body>
+</html>
