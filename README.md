@@ -2,6 +2,12 @@
 
 ----------------------------------------------------
 
+---
+___
+
+***
+
+
 ## Funcionalidades
 
 1. GESTOR DE LOJAS
@@ -15,7 +21,7 @@ webservice
 ==========
 
 #### Instalando e executando o projeto:
-    $ git clone https://github.com/projetormb/magalu-finder.git
+    $ git clone *https://github.com/projetormb/magalu-finder.git*
  
     $ cd magalu-finder/
  
