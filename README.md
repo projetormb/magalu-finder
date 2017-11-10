@@ -1,9 +1,7 @@
 # magalu-finder
-
 ----------------------------------------------------
 
----
-___
+O objetivo do magalu-finder é procurar um determinado produto na loja mais próxima, conforme seu CEP.
 
 ***
 
@@ -17,8 +15,8 @@ ___
 3. PROCURAR PRODUTOS MAIS PROXIMOS CONFORME O CEP
 
 
-webservice
-==========
+### webservice
+---
 
 #### Instalando e executando o projeto:
     $ git clone *https://github.com/projetormb/magalu-finder.git*
