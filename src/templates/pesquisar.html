@@ -3,65 +3,59 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desafio de API</title>
+    <title>Magazine Luiza Finder</title>
     <link href="/static/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container">
 
-        <h1>Desafio de API</h1>
-        <h2>Comunicando com o Twitter</h2>
+        <h1>Magazine Luiza Finder</h1>
+        <h2>Procurando um produto mais próximo de você</h2>
 
-        <!-- espaçamento entre cabeçalhos e início das divs... meio xing ling mas resolve -->
+        <!-- espaçamento entre cabeçalhos e início das divs -->
         <div style="padding-bottom:50px;">
         </div>
+
+
 
         <div class="form-group">
             <div class="row">
                 <div class="col-sm-6">
-                    <label>Selecione o usuário</label>
-                    <select class="form-control" name="userName" id="userName">
-                        <!--option value="rmbertoni">Rafael M. Bertoni</option>
-                        <option value="lupcoelho">Luciana P. Coelho</option-->
+                    <label>Selecione o produto desejado</label>
+                    <select class="form-control" name="produtoNome" id="produtoNome">
 
-                        {% for usuario in usuarios %}
-                          <option value=" {{ usuario.userID }} ">{{ usuario.userName }}</option>
+                        {% for produto in produtos %}
+                          <option value=" {{ produto.Nome }} ">{{ produto.Nome }}</option>
                         {% endfor %}
 
                     </select>
                 </div>
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <div class="row">
                 <div class="col-sm-6">
-                    <label>Selecione a quantidade máxima de tweets</label>
-                    <select class="form-control" name="maxTweets" id="maxTweets">
-                        <option value="5">5 tweets</option>
-                        <option value="10">10 tweets</option>
-                        <option value="15">15 tweets</option>
-                        <option value="20">20 tweets</option>
-                        <option value="25">25 tweets</option>
-                        <option value="30">30 tweets</option>
-                        <option value="35">35 tweets</option>
-                        <option value="40">40 tweets</option>
-                        <option value="45">45 tweets</option>
-                        <option value="50">50 tweets</option>
-                        <option value="100">100 tweets</option>
-                        <option value="150">150 tweets</option>
-                        <option value="200">200 tweets</option>
-                    </select>
+                    <label>Informe o seu CEP</label>
+                    <input class="form-control" type="textbox" name="CEP" id="CEP" value="14401-216">
                 </div>
             </div>
         </div>
 
+
         <div class="form-group">
             <div class="row">
                 <div class="col-sm-4">
-                    <button type="button" class="btn btn-lg btn-primary" id="btnCarregarTweets">Carregar Tweets</button>
-                </div>
-                
-                <div class="col-sm-4">
-                    <button type="button" class="btn btn-lg btn-success" id="btnNovaConsulta">Nova Consulta</button>
+                    <button type="button" class="btn btn-lg btn-primary" id="btnPesquisar">Pesquisar</button>
                 </div>
             </div>
         </div>
+
+
+
+
 
         <div class="form-group">
             <div class="col-sm-12">

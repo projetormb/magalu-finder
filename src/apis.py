@@ -9,12 +9,12 @@ app = Flask(__name__, template_folder='./templates', static_url_path='/static')
 @app.route('/')
 def home():
 
-    usuarios = []
-    usuarios.append({ 'userID' : 'xxx', 'userName' : 'Rafael Malta Bertoni'})
-    usuarios.append({ 'userID' : 'yyy', 'userName' : 'TesteY'})
-    usuarios.append({ 'userID' : 'naoexiste', 'userName' : u'Usuário inexistente'})
+    produtos = []
+    produtos.append({ 'ID' : '1', 'Nome' : u'TV Samsung LED 40 polegadas'})
+    produtos.append({ 'ID' : '2', 'Nome' : u'Aspirador de Pó Arno'})
+    produtos.append({ 'ID' : '3', 'Nome' : u'Celular Moto G'})
 
-    return render_template("index.html", usuarios=usuarios), 200
+    return render_template("pesquisar.html", produtos=produtos), 200
 
 #@app.route('/api', methods=['POST'])
 #def api():
