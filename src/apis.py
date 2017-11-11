@@ -1,71 +1,65 @@
 # -*- coding: utf-8 -*-
 
-from flask import Flask, request, render_template, jsonify
-
 import requests
 
-#from consumo import consumoTwitter
+def api_distancia_google(cep_origem, cep_destino):
+    ret = { 'success' : False }
 
-app = Flask(__name__, template_folder='./templates', static_url_path='/static')
+    url_target =  'http://maps.googleapis.com/maps/api/distancematrix/json?'
+    url_target += 'origins=' + cep_origem
+    url_target += '&destinations=' + cep_destino
+    url_target += '&mode=CAR&language=PT&sensor=false'
 
-@app.route('/')
-def home():
+    google_response = requests.get(url_target)
 
-    produtos = []
-    produtos.append({ 'ID' : '1', 'Nome' : u'TV Samsung LED 40 polegadas'})
-    produtos.append({ 'ID' : '2', 'Nome' : u'Aspirador de Pó Arno'})
-    produtos.append({ 'ID' : '3', 'Nome' : u'Celular Moto G'})
+    google_json = google_response.json()
 
-    return render_template("pesquisar.html", produtos=produtos), 200
+    if 'status' not in google_json:
+        ret['error'] = 'Google - não retornou status'
+        return ret
 
-@app.route('/lojas/')
-def lojas():
-    dados = { 'Titulo' : u'Manutenção de Lojas'}
+    if google_json['status'] != 'OK':
+        ret['error'] = 'Google - status not OK'
+        return ret
 
-    return render_template("lojas.html", dados=dados), 200
+    if 'rows' not in google_json:
+        ret['error'] = 'Google - rows não encontrada'
+        return ret
 
+    if len(google_json['rows']) == 0:
+        ret['error'] = 'Google - rows zero'
+        return ret
 
-@app.route('/teste/')
-def teste():
+    for row in google_json['rows']:
 
-    resp = requests.get('http://maps.googleapis.com/maps/api/distancematrix/json?origins=13201-031&destinations=14401-216&mode=CAR&language=PT&sensor=false')
+        if 'elements' not in row:
+            ret['error'] = 'elements não está em row'
+            return ret
 
-    ret_json = resp.json()
+        for element in row['elements']:
+            if 'distance' not in element:
+                ret['error'] = 'Google - element não possui distance'
+                return ret
 
-    if 'status' in ret_json:
+            distance = element['distance']
 
-        if ret_json['status'] == 'OK':
+            if 'text' not in distance:
+                ret['error'] = 'Google - distance não possui text'
+                return ret
 
-            if 'rows' in ret_json:
-                return str(ret_json['rows'])
+            if 'value' not in distance:
+                ret['error'] = 'Google - distance não possui value'
+                return ret
 
+            distance_text = distance['text']
+            distance_value = distance['value']
 
-            return str(ret_json)
+            ret['success'] = True
+            ret['distance'] = { 'text' : distance['text'], 'value' : distance['value'] }
+            return ret
 
+        ret['error'] = 'Google - nenhum element foi encontrado'
+        return ret
 
-
-        return j['status']
-
-
-
-
-
-    
-
-
-
-
-#@app.route('/api', methods=['POST'])
-#def api():
-#    maxTweets = int(request.form['maxTweets'])
-#    userName = request.form['userName']
-#    retorno = consumoTwitter(userName, maxTweets)
-#    return jsonify(retorno)
-
-
-
-#  https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyAN6xBKJz_4hP5BcLFSYQNQdF2D-GRDOJo&address=14401216
-
-#  http://maps.googleapis.com/maps/api/distancematrix/json?origins=13201-031&destinations=14401-216&mode=CAR&language=PT&sensor=false
-
-app.run()
+    ret['error'] = 'Google - nenhuma row foi encontrada'
+    return ret

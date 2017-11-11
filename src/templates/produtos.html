@@ -3,41 +3,37 @@
 
 {% block body %}
 
+
     <div class="form-group">
         <div class="row">
-            <h2>Lojas</h2>
+            <h2>Produtos</h2>
         </div>
     </div>
-
 
     <form>
         <div class="form-group">
             <div class="row">
                 <div class="col-sm-4">
-                    <label>Código da Filial</label>
-                    <input class="form-control" type="textbox" name="CodigoFilial" id="CodigoFilial" autofocus>
+                    <label>Código do Produto</label>
+                    <input class="form-control" type="textbox" name="CodigoProduto" id="CodigoProduto" autofocus>
                 </div>
 
                 <div class="col-sm-8">
                     <label>Descricao da Filial</label>
-                    <input class="form-control" type="textbox" name="DescricaoFilial" id="DescricaoFilial">
+                    <input class="form-control" type="textbox" name="DescricaoProduto" id="DescricaoProduto">
                 </div>
             </div>
         </div>
 
-        <div class="form-group">
+        <!--div class="form-group">
             <div class="row">
                 <div class="col-sm-4">
                     <label>CEP da Filial</label>
                     <input class="form-control" type="textbox" name="CepFilial" id="CepFilial">
                 </div>
             </div>
-        </div>
+        </div-->
     </form>
-
-    {% include 'layout2.html' %}
-
-
 
 {% endblock %}
 
