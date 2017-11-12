@@ -4,6 +4,8 @@ import unittest2
 
 from apis import api_distancia_google
 
+from lojas import Lojas, Table
+
 def test_consumo_google(cep_origem, cep_destino, distanciaEsperada, **kwargs):
 
     output = '  - CEP de Origem: ' + str(cep_origem) + ' para CEP de Destino ' + str(cep_destino)
@@ -40,29 +42,53 @@ def test_consumo_google(cep_origem, cep_destino, distanciaEsperada, **kwargs):
 
     return False
 
-def test_consumoTwitter(userName, maxTweets):
-    tweetsRetornados = consumoTwitter(userName, maxTweets)
 
-    for x in range(0, 30):
-        print ' '
+def test_preparar_db():
 
-
-    print '    - userName : ' + userName + ' maxTweets : ' + str(maxTweets)
-    print '      -- retornou : ' + str(len(tweetsRetornados)) + ' tweets ...'
+    print '  - Limpando tabelas para executar testes ...'
     print ' '
 
-    return len(tweetsRetornados)
+    table = Table()
+    table.prepare_tests()
+
+    print '  - OK'
+    print ' '
+
+
+    return True
+
+
+def test_banco_dados(descricao, cep):
+
+    print '  - Inserindo Loja: ' + str(descricao) + ' com CEP: ' + str(cep)
+
+    loja = Lojas()
+    ret = loja.inserir(descricao, cep)
+
+    if ret is True:
+        print '  - OK'
+    else:
+        print '  - ERRO'
+
+    print ' '
+
+    return ret
+
 
 
 class MyTest(unittest2.TestCase):
 
     def test(self):
 
-        for x in range(0, 30):
-            print ' '
+        for x in range(0, 30):  # ajuda como clear screen
+            print ' '           # ajuda como clear screen
+
+
 
         print 'Iniciando testes ...'
         print '========================================================================='
+
+
         print ' '
         print '> Testando distância entre 2 CEPs:'
         print ' '
@@ -76,6 +102,23 @@ class MyTest(unittest2.TestCase):
         self.assertEqual(test_consumo_google('', '14402-029', 0, Description='CEP de Origem invalido'), False)
         self.assertEqual(test_consumo_google('14402-029', '', 0, Description='CEP de Destino invalido'), False)
         self.assertEqual(test_consumo_google('69005-140', '14401-216', 0, Description='Distancia nao informada'), False)
+
+
+
+        print ' '
+        print '> Testando banco de dados:'
+        print ' '
+
+        self.assertEqual(test_preparar_db(), True)
+
+        self.assertEqual(test_banco_dados('Feira de Santana - Conselheiro', '44002-128'), True)
+        self.assertEqual(test_banco_dados('Feira de Santana - Senhor', '44002-200'), True)
+        self.assertEqual(test_banco_dados('Feira de Santana - Marechal', '44002-064'), True)
+
+
+        for x in range(0, 10):
+            filialX = 'Nome da filial ficticia numero ' + str(x)
+            self.assertEqual(test_banco_dados(filialX, '44002-064'), True)
 
 
 
