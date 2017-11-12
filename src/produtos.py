@@ -5,19 +5,20 @@ import MySQLdb
 from banco import Tabela
 
 
-class Lojas(Tabela):
+class Produtos(Tabela):
 
     def __init__(self):
-        super(Lojas, self).__init__()
-        self.table_name = 'Lojas'
+        super(Produtos, self).__init__()
+        self.table_name = 'Produtos'
 
-    def inserir(self, descricao, cep):
+    def inserir(self, descricao, valor_venda):
 
         values = []
         values.append(descricao.decode('latin1').encode('utf8'))
-        values.append(cep.decode('latin1').encode('utf8'))
+        #values.append(valor_venda.decode('latin1').encode('utf8'))
+        values.append(valor_venda)
 
-        q = """INSERT INTO `mbcorporate01`.`Lojas` (`Descricao`, `CEP`) VALUES (%s, %s);"""
+        q = """INSERT INTO `mbcorporate01`.`Produtos` (`Descricao`, `ValorVenda`) VALUES (%s, %s);"""
 
         return self.execute_query(q, values)
 
