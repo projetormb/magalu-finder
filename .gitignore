@@ -1,5 +1,2 @@
 *.pyc
-./src/*.pyc
-./src/static/app.js
-./src/templates/exemplo_angular.html
 

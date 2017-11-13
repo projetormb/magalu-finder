@@ -41,9 +41,9 @@ def view_produtos():
     return render_template("produtos.html"), 200
 
 
-@app.route('/produtos2/')
+@app.route('/views/produtos/')
 def view_produtos2():
-    return render_template("produtos2.html")
+    return render_template("view_produtos.html")
 
 
 
@@ -57,7 +57,7 @@ def view_produtos2():
 
 
 
-@app.route('/Products/', methods=['GET', 'POST', 'PUT', 'DELETE'])
+@app.route('/Products/', methods=['GET', 'POST', 'PUT'])
 def products():
 
     ret = { 'success' : False }
@@ -99,20 +99,50 @@ def products():
             ret['message'] = 'Erro ao inserir produto'
             return jsonify(ret), 400
 
-
     if request.method == 'PUT':
-        #update
-        return jsonify(ret), 200 
+        produto_id = dataDict['id'] 
+        descricao = dataDict['descricao']
+        valor_venda = dataDict['venda']
+
+        produto = Produtos()
+        update_ok = produto.atualizar(produto_id, descricao, valor_venda)
+
+        if update_ok is True:
+            ret['success'] = True
+            ret['message'] = 'Produto atualizado com sucesso'
+            return jsonify(ret), 200
+        else:
+            ret['message'] = 'Erro ao inserir produto'
+            return jsonify(ret), 400
+
+    return jsonify(ret), 405
 
 
-    if request.method == 'DELETE':
-        #delete
-        return jsonify(ret), 200 
+
+@app.route('/Products/Delete/<id>/', methods=['DELETE'])
+def products_delete_id(id):
+
+    ret = { 'success' : False }
+
+    produto = Produtos()
+    delete_ok = produto.deletar(id)
+
+    if delete_ok is True:
+        ret['success'] = True
+        ret['message'] = 'Produto excluido com sucesso'
+        return jsonify(ret), 200
+    else:
+        ret['message'] = 'Erro ao excluir produto'
+        return jsonify(ret), 400
 
 
     return jsonify(ret), 405
 
 
+
+
+
+"""
 @app.route('/pesquisar/')
 def view_pesquisar():
     produtos = []
@@ -149,6 +179,7 @@ def distancia():
         return jsonify(ret), 200
 
     return jsonify(ret), 400 
+"""
 
 
 app.run()

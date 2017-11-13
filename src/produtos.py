@@ -12,12 +12,33 @@ class Produtos(Tabela):
         self.table_name = 'Produtos'
 
     def inserir(self, descricao, valor_venda):
-
         values = []
         values.append(descricao.decode('latin1').encode('utf-8'))
         values.append(valor_venda)
 
         q = """INSERT INTO `mbcorporate01`.`Produtos` (`Descricao`, `ValorVenda`) VALUES (%s, %s);"""
+
+        return self.execute_query(q, values)
+
+
+    def atualizar(self, produto_id, descricao, valor_venda):
+        values = []
+        values.append(descricao.encode('utf-8'))
+        values.append(valor_venda)
+        values.append(produto_id)
+
+        q = """UPDATE `mbcorporate01`.`Produtos` SET """ 
+        q += """`Descricao` = %s, """
+        q += """`ValorVenda` = %s WHERE `Id` = %s;"""
+
+        return self.execute_query(q, values)
+
+
+    def deletar(self, produto_id):
+        values = []
+        values.append(produto_id)
+
+        q = 'DELETE FROM ' + self.dbname + '.' + self.table_name + ' WHERE Id = %s;'
 
         return self.execute_query(q, values)
 
@@ -35,25 +56,8 @@ class Produtos(Tabela):
 
             for row in result:
                 produto_id = row[0]
-
-                #if isinstance(row[1], str):
-                #    descricao = "ordinary string"
-                #elif isinstance(row[1], unicode):
-                #    #descricao = "unicode string"
-                #    #descricao = row[1].encode('utf-8')
-                #    descricao = row[1].encode('latin1')
-                #else:
-                #    descricao = "not a string"
-                
                 descricao = row[1].encode('latin1')
                 venda = str(row[2])
                 ret.append({ 'id' : produto_id, 'descricao': descricao, 'venda' : venda })
 
         return ret
-
-
-
-
-#INSERT INTO `mbcorporate01`.`Estoque` (`ProdutoID`, `LojaID`, `Quantidade`) VALUES (1, 1, 1);
-#INSERT INTO `mbcorporate01`.`Estoque` (`ProdutoID`, `LojaID`, `Quantidade`) VALUES (1, 2, 7);
-#INSERT INTO `mbcorporate01`.`Estoque` (`ProdutoID`, `LojaID`, `Quantidade`) VALUES (1, 3, 13);
