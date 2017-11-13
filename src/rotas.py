@@ -1,11 +1,29 @@
 # -*- coding: utf-8 -*-
 
-from flask import Flask, request, render_template, jsonify
+import json
 
+from flask import Flask, request, render_template, jsonify
 from apis import api_distancia_google
+from produtos import Produtos
 
 
 app = Flask(__name__, template_folder='./templates', static_url_path='/static')
+
+# trocar prefixos e sufixos do jinja para não confundir com o AngularJS.
+
+jinja_options = app.jinja_options.copy()
+
+jinja_options.update(dict(
+    block_start_string='<%',
+    block_end_string='%>',
+    variable_start_string='%%',
+    variable_end_string='%%',
+    comment_start_string='<#',
+    comment_end_string='#>'
+))
+app.jinja_options = jinja_options
+
+
 
 
 @app.route('/')
@@ -25,23 +43,74 @@ def view_produtos():
 
 @app.route('/produtos2/')
 def view_produtos2():
-
-    jinja_options = app.jinja_options.copy()
-
-    jinja_options.update(dict(
-        block_start_string='<%',
-        block_end_string='%>',
-        variable_start_string='%%',
-        variable_end_string='%%',
-        comment_start_string='<#',
-        comment_end_string='#>'
-    ))
-    app.jinja_options = jinja_options
-
-
-
     return render_template("produtos2.html")
 
+
+
+
+
+
+
+
+
+
+
+
+
+@app.route('/Products/', methods=['GET', 'POST', 'PUT', 'DELETE'])
+def products():
+
+    ret = { 'success' : False }
+
+    if request.method in ['POST', 'PUT']:
+        if request.is_json is False:
+            ret['message'] = 'Request não é um JSON'
+            return jsonify(ret), 400
+
+        dataDict = request.get_json()
+
+        if dataDict is None:
+            ret['message'] = 'JSON inválido'
+            return jsonify(ret), 400
+
+        if len(dataDict) == 0:
+            ret['message'] = 'Nenhuma informação encontrada no JSON'
+            return jsonify(ret), 400
+
+
+    if request.method == 'GET':
+        produto = Produtos()
+        ret = produto.select_all()
+        return jsonify(ret), 200
+
+
+    if request.method == 'POST':
+        descricao = dataDict['descricao']
+        valor_venda = dataDict['venda']
+
+        produto = Produtos()
+        insert_ok = produto.inserir(descricao, valor_venda)
+
+        if insert_ok is True:
+            ret['success'] = True
+            ret['message'] = 'Produto inserido com sucesso'
+            return jsonify(ret), 200
+        else:
+            ret['message'] = 'Erro ao inserir produto'
+            return jsonify(ret), 400
+
+
+    if request.method == 'PUT':
+        #update
+        return jsonify(ret), 200 
+
+
+    if request.method == 'DELETE':
+        #delete
+        return jsonify(ret), 200 
+
+
+    return jsonify(ret), 405
 
 
 @app.route('/pesquisar/')

@@ -1,21 +1,43 @@
 var myApp = angular.module("myApp", []);
 
-myApp.controller("myController", function($scope){
-    console.log("in controller...");
-    $scope.newProduto = {};
-	$scope.info = "";
+myApp.controller("myController", function($scope, $http){
 
-    $scope.produtos = [
-        { id : 1,  descricao: "TV branco e preto", venda : 2299.99 } ,
-        { id : 2,  descricao: "Celular motorola tijolo", venda : 99.90 } ,
-        { id : 3,  descricao: "Fogão a lenha", venda : 199.99 } 
-    ];
+    $scope.produtos = [];
+    $scope.newProduto = {};
+	  $scope.info = "";
+
+    $scope.loadProdutos = function(){
+            $http.get("/Products/", {})
+                 .then(function successCallback(response) {
+                         for (i = 0; i < response.data.length; i++) { 
+                              p = response.data[i];
+                              $scope.produtos.push({ id : p.id,  descricao: p.descricao, venda : p.venda });
+                         };
+                       }, 
+                       function errorCallback(response) {
+                                console.log('errorCallback') ;
+                       });
+                   };
+
+
+    $scope.loadProdutos();
 
     $scope.saveProduto = function(){
-        console.log("Saving...");
-        $scope.produtos.push($scope.newProduto);
-        $scope.info = "Novo Produto Inserido !";
+        $http.post("/Products/", { 
+                    'id': $scope.newProduto.id,
+                    'descricao': $scope.newProduto.descricao,
+                    'venda': $scope.newProduto.venda })
+                .then(function successCallback(response) {
+                               console.log(response.data);
+                               $scope.produtos.push($scope.newProduto);
+                               $scope.info = "Novo Produto Inserido !";
         $scope.newProduto = {};
+                      }, 
+                      function errorCallback(response) {
+                               console.log('errorCallback') ;
+                      });
+
+
     };
 
     $scope.selectProduto = function(produto){

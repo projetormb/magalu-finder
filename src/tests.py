@@ -137,7 +137,6 @@ class MyTest(unittest2.TestCase):
         print '> Testando distância entre 2 CEPs:'
         print ' '
 
-        """
         self.assertEqual(test_consumo_google('13201-031', '14401-216', 347889, Description='Jundiai para Franca'), True)
         self.assertEqual(test_consumo_google('13201-031', '14401-216', 347999, Description='Jundiai para Franca com distancia errada'), False)
         self.assertEqual(test_consumo_google('69005-140', '14401-216', 3636904, Description='Manaus para Franca'), True)
@@ -147,8 +146,6 @@ class MyTest(unittest2.TestCase):
         self.assertEqual(test_consumo_google('', '14402-029', 0, Description='CEP de Origem invalido'), False)
         self.assertEqual(test_consumo_google('14402-029', '', 0, Description='CEP de Destino invalido'), False)
         self.assertEqual(test_consumo_google('69005-140', '14401-216', 0, Description='Distancia nao informada'), False)
-        """
-
 
 
         print ' '
@@ -158,7 +155,6 @@ class MyTest(unittest2.TestCase):
         self.assertEqual(test_preparar_db(), True) # truncate tables ...
 
 
-        """
         print ' '
         print '> Inserindo Lojas:'
         print ' '
@@ -174,8 +170,6 @@ class MyTest(unittest2.TestCase):
             self.assertEqual(test_insert_loja(filialX, '44002-064'), True)
 
         self.assertEqual(test_quantidade_lojas(), 13)
-        """
-
 
 
 
