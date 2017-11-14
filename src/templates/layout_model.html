@@ -1,0 +1,24 @@
+<% extends "layout.html" %>
+
+<% block head_scripts %>
+   <script type="text/javascript" src="/static/angular.min.js"></script>
+   <% block head_model_scripts %>
+   <% endblock %>
+<% endblock %>
+
+
+<% block custom_body %>
+
+<body ng-app="myApp" ng-controller="myController">
+
+
+    <% block inner_body %>
+
+
+    <% endblock %>
+
+    <script src="/static/jquery-3.1.1.min.js"></script>
+    <script src="/static/bootstrap.min.js"></script>
+
+</body>
+<% endblock %>

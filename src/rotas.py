@@ -27,8 +27,8 @@ app.jinja_options = jinja_options
 
 
 @app.route('/')
-def home():
-    return render_template("principal.html"), 200
+def view_home():
+    return render_template("view_home.html"), 200
 
 
 @app.route('/lojas/')
