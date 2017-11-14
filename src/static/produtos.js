@@ -10,7 +10,7 @@ myApp.controller("myController", function($scope, $http){
             $http.get("/Products/", {})
                  .then(function successCallback(response) {
                          for (i = 0; i < response.data.length; i++) { 
-                              p = response.data[i];
+                              var p = response.data[i];
                               $scope.produtos.push({ id : p.id,  descricao: p.descricao, venda : p.venda });
                          };
                        }, 
@@ -28,6 +28,12 @@ myApp.controller("myController", function($scope, $http){
                     'descricao': $scope.newProduto.descricao,
                     'venda': $scope.newProduto.venda })
                 .then(function successCallback(response) {
+
+                              d = response.data;
+                              
+                               $scope.newProduto.id = d.id;
+                              
+                               
                                $scope.produtos.push($scope.newProduto);
                                $scope.info = "Novo Produto Inserido !";
                                $scope.newProduto = {};

@@ -107,6 +107,45 @@ def test_insert_produto(descricao, valor_venda):
     return ret
 
 
+def test_atualiza_produto(produto_id, descricao, valor_venda):
+
+    print '  - Atualizando o Produto: ' + str(produto_id)
+    print '  - Descrição:' + str(descricao)
+    print '  - Valor de venda: ' + str(valor_venda)
+
+    produto = Produtos()
+    ret = produto.atualizar(produto_id, descricao, valor_venda)
+
+    if ret is True:
+        print '  - OK'
+    else:
+        print '  - ERRO'
+
+    print ' '
+
+    return ret
+
+def test_select_all_produtos():
+    print '  - Selecionando Todos os Produtos:'
+
+    produto = Produtos()
+    result = produto.select_all()
+
+    if len(result) > 0:
+
+        print result[0]
+
+
+        print '  - OK'
+        print ' '
+        return True
+    else:
+        print '  - ERRO'
+        print ' '
+        return False
+
+
+
 def test_quantidade_produtos():
 
     produto = Produtos()
@@ -132,7 +171,7 @@ class MyTest(unittest2.TestCase):
         print 'Iniciando testes ...'
         print '========================================================================='
 
-
+        """
         print ' '
         print '> Testando distância entre 2 CEPs:'
         print ' '
@@ -146,7 +185,7 @@ class MyTest(unittest2.TestCase):
         self.assertEqual(test_consumo_google('', '14402-029', 0, Description='CEP de Origem invalido'), False)
         self.assertEqual(test_consumo_google('14402-029', '', 0, Description='CEP de Destino invalido'), False)
         self.assertEqual(test_consumo_google('69005-140', '14401-216', 0, Description='Distancia nao informada'), False)
-
+        """
 
         print ' '
         print '> Testando banco de dados:'
@@ -154,7 +193,7 @@ class MyTest(unittest2.TestCase):
 
         self.assertEqual(test_preparar_db(), True) # truncate tables ...
 
-
+        """
         print ' '
         print '> Inserindo Lojas:'
         print ' '
@@ -164,18 +203,26 @@ class MyTest(unittest2.TestCase):
         self.assertEqual(test_insert_loja('Feira de Santana - Marechal', '44002-064'), True)
 
         self.assertEqual(test_quantidade_lojas(), 3)
+        """
 
+
+        """
         for x in range(0, 10):
             filialX = 'Nome da filial ficticia numero ' + str(x)
             self.assertEqual(test_insert_loja(filialX, '44002-064'), True)
 
         self.assertEqual(test_quantidade_lojas(), 13)
-
+        """
 
 
         print ' '
         print '> Inserindo Produtos:'
         print ' '
+
+
+        self.assertEqual(test_insert_produto('Purificador de Água Natural, Gelada ou Fria Electrolux PE11B Branco com Painel Touch - Electrolux', 399.00), True)
+        self.assertEqual(test_select_all_produtos(), True)
+
 
         self.assertEqual(test_insert_produto('Purificador de Água Natural, Gelada ou Fria Electrolux PE11B Branco com Painel Touch - Electrolux', 399.00), True)
         self.assertEqual(test_insert_produto('Fogão 4 Bocas Consul CFO4NAR Inox - Acendimento Automático', 693.41), True)
@@ -194,6 +241,12 @@ class MyTest(unittest2.TestCase):
         self.assertEqual(test_insert_produto('Máquina de Costura Singer Facilita Pro 2918 - Eletrônica 18 Pontos', 806.55), True)
 
         self.assertEqual(test_quantidade_produtos(), 15)
+
+        self.assertEqual(test_atualiza_produto(15, 'Máquina de Costura Singer Facilita Pro 2918 - Eletrônica 99 Pontos', 999.99), True)
+
+        self.assertEqual(test_quantidade_produtos(), 15)
+
+        self.assertEqual(test_select_all_produtos(), True)
 
 
         print 'Fim dos testes.'

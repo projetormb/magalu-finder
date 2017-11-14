@@ -41,7 +41,7 @@ def view_produtos():
     return render_template("produtos.html"), 200
 
 
-@app.route('/views/produtos/')
+@app.route('/view/produtos/')
 def view_produtos2():
     return render_template("view_produtos.html")
 
@@ -94,6 +94,8 @@ def products():
         if insert_ok is True:
             ret['success'] = True
             ret['message'] = 'Produto inserido com sucesso'
+            ret['id'] = produto.Id
+
             return jsonify(ret), 200
         else:
             ret['message'] = 'Erro ao inserir produto'

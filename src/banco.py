@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- coding: latin-1 -*-
 
 
 
@@ -28,7 +28,7 @@ class Tabela(object):
 
     def execute_query(self, query, values):
         ret = False
-        connection = MySQLdb.connect(host=self.host, user=self.user, passwd =self.passwd, db=self.dbname, charset='utf8', init_command='SET NAMES UTF8')
+        connection = MySQLdb.connect(host=self.host, user=self.user, passwd =self.passwd, db=self.dbname, charset='latin1', init_command='SET NAMES latin1')
         self.cursor = connection.cursor()
         try:
             self.cursor.execute(query, values)
