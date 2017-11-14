@@ -28,7 +28,6 @@ app.jinja_options = jinja_options
 
 
 
-
 @app.route('/')
 def view_home():
     return render_template("view_home.html"), 200
@@ -42,15 +41,6 @@ def view_lojas():
 @app.route('/view/produtos/')
 def view_produtos2():
     return render_template("view_produtos.html")
-
-
-
-
-
-
-
-
-
 
 
 
@@ -142,8 +132,6 @@ def products_delete_id(id):
 
 
 
-
-
 @app.route('/Stores/', methods=['GET', 'POST', 'PUT'])
 def stores():
 
@@ -226,9 +214,6 @@ def stores_delete_id(id):
 
 
     return jsonify(ret), 405
-
-
-
 
 
 

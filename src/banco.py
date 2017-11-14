@@ -1,14 +1,4 @@
-# -*- coding: latin-1 -*-
-
-
-
-
-
-
-#INSERT INTO `mbcorporate01`.`Estoque` (`ProdutoID`, `LojaID`, `Quantidade`) VALUES (1, 1, 1);
-#INSERT INTO `mbcorporate01`.`Estoque` (`ProdutoID`, `LojaID`, `Quantidade`) VALUES (1, 2, 7);
-#INSERT INTO `mbcorporate01`.`Estoque` (`ProdutoID`, `LojaID`, `Quantidade`) VALUES (1, 3, 13);
-
+# -*- coding: utf-8 -*-
 
 import MySQLdb
 

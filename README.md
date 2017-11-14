@@ -12,10 +12,17 @@ O objetivo do magalu-finder é procurar um determinado produto na loja mais pró
 3. PROCURAR PRODUTOS MAIS PROXIMOS CONFORME O CEP
 
 
+### Instalando e executando o projeto:
+
+
 #### Instalando e executando o projeto:
+
+    $ virtualenv xxx
+    $ source ~/xxx/bin/activate
+
 
     $ git clone https://github.com/projetormb/magalu-finder.git
  
     $ cd magalu-finder/
  
-    $ python apis.py
+    $ python rotas.py
