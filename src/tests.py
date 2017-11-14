@@ -91,7 +91,7 @@ def test_quantidade_lojas():
 def test_insert_produto(descricao, valor_venda):
 
     print '  - Inserindo Produto: '
-    print '  - Descrição:' + str(descricao)
+    print u'  - Descrição: ' + descricao
     print '  - Valor de venda: ' + str(valor_venda)
 
     produto = Produtos()
@@ -110,7 +110,7 @@ def test_insert_produto(descricao, valor_venda):
 def test_atualiza_produto(produto_id, descricao, valor_venda):
 
     print '  - Atualizando o Produto: ' + str(produto_id)
-    print '  - Descrição:' + str(descricao)
+    print u'  - Descrição: ' + descricao
     print '  - Valor de venda: ' + str(valor_venda)
 
     produto = Produtos()
@@ -220,31 +220,31 @@ class MyTest(unittest2.TestCase):
         print ' '
 
 
-        self.assertEqual(test_insert_produto('Purificador de Água Natural, Gelada ou Fria Electrolux PE11B Branco com Painel Touch - Electrolux', 399.00), True)
+        self.assertEqual(test_insert_produto(u'Purificador de Água Natural, Gelada ou Fria Electrolux PE11B Branco com Painel Touch - Electrolux', 399.00), True)
         self.assertEqual(test_select_all_produtos(), True)
 
 
-        self.assertEqual(test_insert_produto('Purificador de Água Natural, Gelada ou Fria Electrolux PE11B Branco com Painel Touch - Electrolux', 399.00), True)
-        self.assertEqual(test_insert_produto('Fogão 4 Bocas Consul CFO4NAR Inox - Acendimento Automático', 693.41), True)
-        self.assertEqual(test_insert_produto('Notebook Dell Inspiron i15-5566-D10P Intel Core i3 - 4GB 1TB LED 15,6 \" Linux', 1529.90), True)
-        self.assertEqual(test_insert_produto('Notebook Samsung Expert X23 Intel Core i5 - 8GB 1TB LED 15,6 \" GeForce 920MX 2GB Windows 10', 2324.91), True)
-        self.assertEqual(test_insert_produto('Smartphone Motorola Moto G5s Plus 32GB - Platinum Dual Chip 4G Cam. Duo 13MP + 13MP', 1274.15), True)
-        self.assertEqual(test_insert_produto('Guarda-roupa Casal 10 Portas 3 Gavetas - Araplac Rusti 18490-88', 289.99), True)
-        self.assertEqual(test_insert_produto('Guarda-roupa Casal 4 Portas 6 Gavetas - Araplac Sofia com Espelho', 599.99), True)
-        self.assertEqual(test_insert_produto('Lava e Seca Samsung 10kg WD106UHSAWQ - 14 Programas de Lavagem Água Quente', 2369.90), True)
-        self.assertEqual(test_insert_produto('Smart TV LED 43 \" LG 43LJ5550 webOS - Conversor Digital 1 USB 2 HDMI', 1804.91), True)
-        self.assertEqual(test_insert_produto('Smart TV OLED 55 \" LG 4K/Ultra HD OLED55B7P - Conversor Digital Wi-Fi 4 HDMI 3 USB', 9499.05), True)
-        self.assertEqual(test_insert_produto('Cafeteira Elétrica Cadence Single Colors CAF112 - 2 Xícaras Roxa', 59.90), True)
-        self.assertEqual(test_insert_produto('Cooktop 5 Bocas Consul Facilite CD075AE à Gás - Acendimento Superautomático', 436.05), True)
-        self.assertEqual(test_insert_produto('Smartphone Samsung Galaxy J5 Prime 32GB Dourado - Dual Chip 4G Câm. 13MP + Selfie 5MP Tela 5\" HD', 674.10), True)
-        self.assertEqual(test_insert_produto('iPhone SE Apple 128GB Prateado 4G Tela 4\" - Retina Câm. 12MP iOS 10 Proc. Chip A9 Touch ID', 1759.12), True)
-        self.assertEqual(test_insert_produto('Máquina de Costura Singer Facilita Pro 2918 - Eletrônica 18 Pontos', 806.55), True)
+        self.assertEqual(test_insert_produto(u'Purifuicador de Água Natural, Gelada ou Fria Electrolux PE11B Branco com Painel Touch - Electrolux', 399.00), True)
+        self.assertEqual(test_insert_produto(u'Fogão 4 Bocas Consul CFO4NAR Inox - Acendimento Automático', 693.41), True)
+        self.assertEqual(test_insert_produto(u'Notebook Dell Inspiron i15-5566-D10P Intel Core i3 - 4GB 1TB LED 15,6 \" Linux', 1529.90), True)
+        self.assertEqual(test_insert_produto(u'Notebook Samsung Expert X23 Intel Core i5 - 8GB 1TB LED 15,6 \" GeForce 920MX 2GB Windows 10', 2324.91), True)
+        self.assertEqual(test_insert_produto(u'Smartphone Motorola Moto G5s Plus 32GB - Platinum Dual Chip 4G Cam. Duo 13MP + 13MP', 1274.15), True)
+        self.assertEqual(test_insert_produto(u'Guarda-roupa Casal 10 Portas 3 Gavetas - Araplac Rusti 18490-88', 289.99), True)
+        self.assertEqual(test_insert_produto(u'Guarda-roupa Casal 4 Portas 6 Gavetas - Araplac Sofia com Espelho', 599.99), True)
+        self.assertEqual(test_insert_produto(u'Lava e Seca Samsung 10kg WD106UHSAWQ - 14 Programas de Lavagem Água Quente', 2369.90), True)
+        self.assertEqual(test_insert_produto(u'Smart TV LED 43 \" LG 43LJ5550 webOS - Conversor Digital 1 USB 2 HDMI', 1804.91), True)
+        self.assertEqual(test_insert_produto(u'Smart TV OLED 55 \" LG 4K/Ultra HD OLED55B7P - Conversor Digital Wi-Fi 4 HDMI 3 USB', 9499.05), True)
+        self.assertEqual(test_insert_produto(u'Cafeteira Elétrica Cadence Single Colors CAF112 - 2 Xícaras Roxa', 59.90), True)
+        self.assertEqual(test_insert_produto(u'Cooktop 5 Bocas Consul Facilite CD075AE à Gás - Acendimento Superautomático', 436.05), True)
+        self.assertEqual(test_insert_produto(u'Smartphone Samsung Galaxy J5 Prime 32GB Dourado - Dual Chip 4G Câm. 13MP + Selfie 5MP Tela 5\" HD', 674.10), True)
+        self.assertEqual(test_insert_produto(u'iPhone SE Apple 128GB Prateado 4G Tela 4\" - Retina Câm. 12MP iOS 10 Proc. Chip A9 Touch ID', 1759.12), True)
+        self.assertEqual(test_insert_produto(u'Máquina de Costura Singer Facilita Pro 2918 - Eletrônica 18 Pontos', 806.55), True)
 
-        self.assertEqual(test_quantidade_produtos(), 15)
+        self.assertEqual(test_quantidade_produtos(), 16)
 
-        self.assertEqual(test_atualiza_produto(15, 'Máquina de Costura Singer Facilita Pro 2918 - Eletrônica 99 Pontos', 999.99), True)
+        self.assertEqual(test_atualiza_produto(15, u'Máquina de Costura Singer Facilita Pro 2918 - Eletrônica 99 Pontos', 999.99), True)
 
-        self.assertEqual(test_quantidade_produtos(), 15)
+        self.assertEqual(test_quantidade_produtos(), 16)
 
         self.assertEqual(test_select_all_produtos(), True)
 

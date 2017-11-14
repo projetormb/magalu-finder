@@ -13,8 +13,8 @@ class Produtos(Tabela):
 
     def inserir(self, descricao, valor_venda):
         values = []
-        #values.append(descricao.decode('latin1').encode('utf-8'))
-        values.append(descricao)
+
+        values.append(descricao.encode('utf-8'))
         values.append(valor_venda)
 
         q = 'INSERT INTO ' + self.dbname + '.' + self.table_name + ' (Descricao, ValorVenda) VALUES (%s, %s);'
@@ -27,7 +27,7 @@ class Produtos(Tabela):
     def atualizar(self, produto_id, descricao, valor_venda):
 
         values = []
-        values.append(descricao)
+        values.append(descricao.encode('utf-8'))
         values.append(valor_venda)
         values.append(produto_id)
 
@@ -57,20 +57,7 @@ class Produtos(Tabela):
 
             for row in result:
                 produto_id = int(row[0])
-                #descricao = row[1].encode('latin1')
-                #descricao = row[1].decode('utf-8').encode('latin1')
-
-                if isinstance(row[1], str):
-                    descricao = "ordinary string"
-                elif isinstance(row[1], unicode):
-                    descricao = "unicode string"
-                else:
-                    descricao = "not a string"
-
-                #descricao = row[1].decode('utf-8').encode('latin1')
-
-
-
+                descricao = row[1]
                 venda = str(row[2])
                 ret.append({ 'id' : produto_id, 'descricao': descricao, 'venda' : venda })
 
