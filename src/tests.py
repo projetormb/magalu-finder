@@ -61,7 +61,7 @@ def test_preparar_db():
 
 def test_insert_loja(descricao, cep):
 
-    print '  - Inserindo Loja: ' + str(descricao) + ' com CEP: ' + str(cep)
+    print u'  - Inserindo Loja: ' + descricao + u' com CEP: ' + cep
 
     loja = Lojas()
     ret = loja.inserir(descricao, cep)
@@ -171,6 +171,7 @@ class MyTest(unittest2.TestCase):
         print 'Iniciando testes ...'
         print '========================================================================='
 
+
         """
         print ' '
         print '> Testando distância entre 2 CEPs:'
@@ -187,34 +188,35 @@ class MyTest(unittest2.TestCase):
         self.assertEqual(test_consumo_google('69005-140', '14401-216', 0, Description='Distancia nao informada'), False)
         """
 
+
+
         print ' '
         print '> Testando banco de dados:'
         print ' '
 
         self.assertEqual(test_preparar_db(), True) # truncate tables ...
 
-        """
+
         print ' '
         print '> Inserindo Lojas:'
         print ' '
 
-        self.assertEqual(test_insert_loja('Feira de Santana - Conselheiro', '44002-128'), True)
-        self.assertEqual(test_insert_loja('Feira de Santana - Senhor', '44002-200'), True)
-        self.assertEqual(test_insert_loja('Feira de Santana - Marechal', '44002-064'), True)
+        self.assertEqual(test_insert_loja(u'Feira de Santana - Conselheiro', '44002-128'), True)
+        self.assertEqual(test_insert_loja(u'Feira de Santana - Senhor', '44002-200'), True)
+        self.assertEqual(test_insert_loja(u'Feira de Santana - Marechal', '44002-064'), True)
+        self.assertEqual(test_insert_loja(u'Ribeirão Preto', '15002-069'), True)
 
-        self.assertEqual(test_quantidade_lojas(), 3)
-        """
+        self.assertEqual(test_quantidade_lojas(), 4)
 
 
-        """
-        for x in range(0, 10):
+        for x in range(5, 11):
             filialX = 'Nome da filial ficticia numero ' + str(x)
-            self.assertEqual(test_insert_loja(filialX, '44002-064'), True)
+            self.assertEqual(test_insert_loja(filialX.encode('utf-8'), '44002-064'), True)
 
-        self.assertEqual(test_quantidade_lojas(), 13)
+        self.assertEqual(test_quantidade_lojas(), 10)
+
+
         """
-
-
         print ' '
         print '> Inserindo Produtos:'
         print ' '
@@ -247,7 +249,7 @@ class MyTest(unittest2.TestCase):
         self.assertEqual(test_quantidade_produtos(), 16)
 
         self.assertEqual(test_select_all_produtos(), True)
-
+        """
 
         print 'Fim dos testes.'
         print '========================================================================='

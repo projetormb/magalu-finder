@@ -12,25 +12,53 @@ class Lojas(Tabela):
         self.table_name = 'Lojas'
 
     def inserir(self, descricao, cep):
+        values = []
+
+        values.append(descricao.encode('utf-8'))
+        values.append(cep)
+
+        q = 'INSERT INTO ' + self.dbname + '.' + self.table_name + ' (Descricao, cep) VALUES (%s, %s);'
+
+        ret = self.execute_query(q, values)
+        self.Id = self.cursor.lastrowid
+        return ret
+
+
+    def atualizar(self, loja_id, descricao, cep):
 
         values = []
-        values.append(descricao.decode('latin1').encode('utf8'))
-        values.append(cep.decode('latin1').encode('utf8'))
+        values.append(descricao.encode('utf-8'))
+        values.append(cep)
+        values.append(loja_id)
 
-        q = """INSERT INTO `mbcorporate01`.`Lojas` (`Descricao`, `CEP`) VALUES (%s, %s);"""
+        q = 'UPDATE ' + self.dbname + '.' + self.table_name + ' SET Descricao = %s, cep = %s WHERE `Id` = %s;'
 
         return self.execute_query(q, values)
 
 
+    def deletar(self, loja_id):
+        values = []
+        values.append(loja_id)
+
+        q = 'DELETE FROM ' + self.dbname + '.' + self.table_name + ' WHERE Id = %s;'
+
+        return self.execute_query(q, values)
 
 
+    def select_all(self):
+        ret = []
 
-#INSERT INTO `mbcorporate01`.`Produtos` (`Descricao`, `ValorVenda`) VALUES ("TV Samsung 40 polegadas", 2299.99)
+        q = 'SELECT Id, Descricao, cep FROM ' + self.dbname + '.' + self.table_name + ' ORDER BY Id'
 
-#INSERT INTO `mbcorporate01`.`Lojas` (`Descricao`, `CEP`) VALUES ('Loja Franca Centro', 14401216);
-#INSERT INTO `mbcorporate01`.`Lojas` (`Descricao`, `CEP`) VALUES ('Loja Franca Estacao', 14405086);
-#INSERT INTO `mbcorporate01`.`Lojas` (`Descricao`, `CEP`) VALUES ('Loja RP Ipiranga', 14055537);
+        ok = self.execute_query(q, [])
 
-#INSERT INTO `mbcorporate01`.`Estoque` (`ProdutoID`, `LojaID`, `Quantidade`) VALUES (1, 1, 1);
-#INSERT INTO `mbcorporate01`.`Estoque` (`ProdutoID`, `LojaID`, `Quantidade`) VALUES (1, 2, 7);
-#INSERT INTO `mbcorporate01`.`Estoque` (`ProdutoID`, `LojaID`, `Quantidade`) VALUES (1, 3, 13);
+        if ok is True:
+            result = self.cursor.fetchall()
+
+            for row in result:
+                loja_id = int(row[0])
+                descricao = row[1]
+                cep = str(row[2])
+                ret.append({ 'id' : loja_id, 'descricao': descricao, 'cep' : cep })
+
+        return ret

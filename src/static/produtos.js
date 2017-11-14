@@ -76,11 +76,6 @@ myApp.controller("myController", function($scope, $http){
                       function errorCallback(response) {
                                console.log('errorCallback') ;
                       });
-
-        /*
-        $scope.produtos.splice($scope.produtos.indexOf($scope.clickedProduto), 1);
-        $scope.info = "Produto excluído com sucesso !";
-        */
     };
 
     $scope.clearInfo = function(){

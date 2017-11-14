@@ -3,8 +3,11 @@
 import json
 
 from flask import Flask, request, render_template, jsonify
+
 from apis import api_distancia_google
+
 from produtos import Produtos
+from lojas import Lojas
 
 
 app = Flask(__name__, template_folder='./templates', static_url_path='/static')
@@ -31,14 +34,9 @@ def view_home():
     return render_template("view_home.html"), 200
 
 
-@app.route('/lojas/')
+@app.route('/view/lojas/')
 def view_lojas():
-    return render_template("lojas.html"), 200
-
-
-@app.route('/produtos/')
-def view_produtos():
-    return render_template("produtos.html"), 200
+    return render_template("view_lojas.html"), 200
 
 
 @app.route('/view/produtos/')
@@ -114,7 +112,7 @@ def products():
             ret['message'] = 'Produto atualizado com sucesso'
             return jsonify(ret), 200
         else:
-            ret['message'] = 'Erro ao inserir produto'
+            ret['message'] = 'Erro ao atualizar produto'
             return jsonify(ret), 400
 
     return jsonify(ret), 405
@@ -144,44 +142,95 @@ def products_delete_id(id):
 
 
 
-"""
-@app.route('/pesquisar/')
-def view_pesquisar():
-    produtos = []
-    produtos.append({ 'ID' : '1', 'Nome' : u'TV Samsung LED 40 polegadas'})
-    produtos.append({ 'ID' : '2', 'Nome' : u'Aspirador de Pó Arno'})
-    produtos.append({ 'ID' : '3', 'Nome' : u'Celular Moto G'})
-    return render_template("pesquisar.html", produtos=produtos), 200
 
 
-@app.route('/distancia/')
-def distancia():
+@app.route('/Stores/', methods=['GET', 'POST', 'PUT'])
+def stores():
 
-    invalid_parameters = { 'success' : False }
+    ret = { 'success' : False }
 
-    if len(request.args) == 0:
-        invalid_parameters['error'] = 'Parâmetros cep_origem e cep_destino não foram informados'
-        return jsonify(invalid_parameters), 400
+    if request.method in ['POST', 'PUT']:
+        if request.is_json is False:
+            ret['message'] = 'Request não é um JSON'
+            return jsonify(ret), 400
 
-    if 'cep_origem' not in request.args:
-        invalid_parameters['error'] = 'Parâmetro cep_origem não foi informado'
-        return jsonify(invalid_parameters), 400
+        dataDict = request.get_json()
 
-    if 'cep_destino' not in request.args:
-        invalid_parameters['error'] = 'Parâmetro cep_destino não foi informado'
-        return jsonify(invalid_parameters), 400
+        if dataDict is None:
+            ret['message'] = 'JSON inválido'
+            return jsonify(ret), 400
+
+        if len(dataDict) == 0:
+            ret['message'] = 'Nenhuma informação encontrada no JSON'
+            return jsonify(ret), 400
 
 
-    cep_origem = request.args['cep_origem']
-    cep_destino = request.args['cep_destino']
-
-    ret = api_distancia_google(cep_origem, cep_destino)
-
-    if ret['success'] is True:
+    if request.method == 'GET':
+        loja = Lojas()
+        ret = loja.select_all()
         return jsonify(ret), 200
 
-    return jsonify(ret), 400 
-"""
+
+    if request.method == 'POST':
+        descricao = dataDict['descricao']
+        cep = dataDict['cep']
+
+        loja = Lojas()
+        insert_ok = loja.inserir(descricao, cep)
+
+        if insert_ok is True:
+            ret['success'] = True
+            ret['message'] = 'Loja inserida com sucesso'
+            ret['id'] = loja.Id
+
+            return jsonify(ret), 200
+        else:
+            ret['message'] = 'Erro ao inserir loja'
+            return jsonify(ret), 400
+
+    if request.method == 'PUT':
+        loja_id = dataDict['id'] 
+        descricao = dataDict['descricao']
+        cep = dataDict['cep']
+
+        loja = Lojas()
+        update_ok = loja.atualizar(loja_id, descricao, cep)
+
+        if update_ok is True:
+            ret['success'] = True
+            ret['message'] = 'Loja atualizada com sucesso'
+            return jsonify(ret), 200
+        else:
+            ret['message'] = 'Erro ao atualizar loja'
+            return jsonify(ret), 400
+
+    return jsonify(ret), 405
+
+
+
+@app.route('/Stores/Delete/<id>/', methods=['DELETE'])
+def stores_delete_id(id):
+
+    ret = { 'success' : False }
+
+    loja = Lojas()
+    delete_ok = loja.deletar(id)
+
+    if delete_ok is True:
+        ret['success'] = True
+        ret['message'] = 'Loja excluida com sucesso'
+        return jsonify(ret), 200
+    else:
+        ret['message'] = 'Erro ao excluir loja'
+        return jsonify(ret), 400
+
+
+    return jsonify(ret), 405
+
+
+
+
+
 
 
 app.run()
