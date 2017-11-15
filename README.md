@@ -5,14 +5,17 @@ O objetivo do magalu-finder é procurar um determinado produto na loja mais pró
 
 ## Funcionalidades
 
-## Administrativo:
+### Administrativo:
 
 
 1. GESTOR DE LOJAS
 
 2. GESTOR DE PRODUTOS
 
-3. PROCURAR PRODUTOS MAIS PROXIMOS CONFORME O CEP
+
+### Clientes:
+
+1. PROCURAR PRODUTOS MAIS PROXIMOS CONFORME O CEP
 
 
 ### Setup do projeto:
