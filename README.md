@@ -22,12 +22,13 @@ O objetivo do magalu-finder é procurar um determinado produto na loja mais pró
 
 #### Ambiente virtual para execução:
 
+    ```sh
     $ virtualenv env-ml
 
     $ source ~/env-ml/bin/activate
 
     $ pip requirements.txt !!!!!!!!!!!!!!!!!!!!!
-
+    ```
 
 #### Download do repositório:
 
