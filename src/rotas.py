@@ -39,8 +39,13 @@ def view_lojas():
 
 
 @app.route('/view/produtos/')
-def view_produtos2():
+def view_produtos():
     return render_template("view_produtos.html")
+
+
+@app.route('/view/pesquisa/')
+def view_pesquisa():
+    return render_template("view_pesquisa.html")
 
 
 

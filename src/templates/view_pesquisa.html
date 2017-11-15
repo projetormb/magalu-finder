@@ -1,0 +1,156 @@
+<% extends "layout_model.html" %>
+
+
+<% block head_model_scripts %>
+<script type="text/javascript" src="/static/produtos.js"></script>
+<% endblock %>
+
+
+<% block inner_body %>
+
+<div class="container">          
+
+  <% include 'layout_header.html' %>
+
+  <button type="button" class="btn btn-info btn-lg pull-right" data-toggle="modal" data-target="#myModal">Novo Produto</button>
+  <h2>Pesquisa de Produtos - em desenvolvimento</h2>
+  <div class="clearfix"></div>
+  <hr>
+
+  <div class="alert alert-info alert-dismissible" role="alert" ng-if="info">
+    <button type="button" class="close" aria-label="Close"><span aria-hidden="true" ng-click="clearInfo()">&times;</span></button>
+    {{info}}
+  </div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Descrição</th>
+        <th>Preço de Venda</th>
+        <th>Editar</th>
+        <th>Deletar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="produto in produtos">
+        <td> {{ produto.id }} </td>
+        <td> {{ produto.descricao }} </td>
+        <td> {{ produto.venda }} </td>
+        <td> <button class="btn btn-info btn-sm"  type="button" data-toggle="modal" data-target="#myModalEdit" ng-click="selectProduto(produto)">Editar</button> </td>
+        <td> <button class="btn btn-danger btn-sm" type="button" data-toggle="modal" data-target="#myModalDelete" ng-click="selectProduto(produto)">Deletar</button> </td>
+      </tr>              
+    </tbody>
+  </table>
+</div>
+
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Inserindo Novo Produto</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal">
+          <div class="form-group">
+            <label for="newProdutoDescricao" class="col-sm-2 control-label">Descrição</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="newProdutoDescricao" placeholder="Descrição do Produto" ng-model="newProduto.descricao" autofocus>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="newProdutoVenda" class="col-sm-2 control-label">Preço de Venda</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="newProdutoVenda" placeholder="Preço de Venda" ng-model="newProduto.venda">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="saveProduto();">Salvar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div id="myModalEdit" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Editar este produto</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal">
+          <div class="form-group">
+            <label for="editProdutoDescricao" class="col-sm-2 control-label">Descrição</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="editProdutoDescricao" placeholder="Descrição do Produto" ng-model="clickedProduto.descricao">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="editProdutoVenda" class="col-sm-2 control-label">Preço de Venda</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="editProdutoVenda" placeholder="Preço de Venda" ng-model="clickedProduto.venda">
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="updateProduto();">Concluído</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="myModalDelete" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Confirma ?</h4>
+      </div>
+      <div class="modal-body">
+        <h3 style="color: red">Deseja excluir o produto " {{ clickedProduto.descricao }} " ? </h3>
+        <br/>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal" ng-click="deleteProduto();">Sim</button>              
+        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Não</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<% endblock %>

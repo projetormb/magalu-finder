@@ -15,42 +15,32 @@ O objetivo do magalu-finder é procurar um determinado produto na loja mais pró
 
 ### Clientes:
 
-1. PROCURAR PRODUTOS MAIS PROXIMOS CONFORME O CEP
+1. PROCURAR PRODUTOS MAIS PROXIMOS CONFORME O CEP (em desenvolvimento)
 
 
 ### Setup do projeto:
 
 #### Ambiente virtual para execução:
 
-    ```sh
-    $ virtualenv env-ml
+    $ virtualenv env-ml -p /usr/bin/python2.7
 
-    $ source ~/env-ml/bin/activate
+    $ source ./env-ml/bin/activate
 
     $ git clone https://github.com/projetormb/magalu-finder.git
 
-    $ cd ./magalu-finder/
-
-    $ pip install -r requirements.txt
-    ```
-
-
+    $ pip install -r ./magalu-finder/requirements.txt
  
-
 #### Execução dos serviços (Flask) :
 
-    ```sh
     $ cd ./magalu-finder/src/
  
     $ python rotas.py
 
     Acesse em seu navegador:  http://127.0.0.1:5000/
-    ```
 
 #### Execução dos testes:
 
-    ```sh
     $ cd ./magalu-finder/src/
  
     $ python tests.py
-    ```
+
