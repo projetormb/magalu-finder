@@ -7,6 +7,7 @@ from apis import api_distancia_google
 from banco import Tabela
 from lojas import Lojas
 from produtos import Produtos
+from estoque import Estoque
 
 def test_consumo_google(cep_origem, cep_destino, distanciaEsperada, **kwargs):
 
@@ -158,6 +159,22 @@ def test_quantidade_produtos():
     return qtd_in_db
 
 
+def test_insert_estoque(produto_id, loja_id, quantidade):
+
+    estoque = Estoque()
+    ret = estoque.inserir(produto_id, loja_id, quantidade)
+
+    if ret is True:
+        print '  - OK'
+    else:
+        print '  - ERRO'
+
+    print ' '
+
+    return ret
+
+
+
 
 class MyTest(unittest2.TestCase):
 
@@ -189,10 +206,11 @@ class MyTest(unittest2.TestCase):
         """
 
 
-
+        """
         print ' '
         print '> Testando banco de dados:'
         print ' '
+
 
         self.assertEqual(test_preparar_db(), True) # truncate tables ...
 
@@ -216,7 +234,7 @@ class MyTest(unittest2.TestCase):
         self.assertEqual(test_quantidade_lojas(), 10)
 
 
-        """
+
         print ' '
         print '> Inserindo Produtos:'
         print ' '
@@ -250,6 +268,10 @@ class MyTest(unittest2.TestCase):
 
         self.assertEqual(test_select_all_produtos(), True)
         """
+
+
+        self.assertEqual(test_insert_estoque(15, 4, 1), True)
+
 
         print 'Fim dos testes.'
         print '========================================================================='

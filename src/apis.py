@@ -63,3 +63,25 @@ def api_distancia_google(cep_origem, cep_destino):
 
     ret['error'] = 'Google - nenhuma row foi encontrada'
     return ret
+
+
+def api_filiais_mais_proximas(produto_id, cep_cliente):
+    max_filiais = 3
+
+
+    filiais_encontradas = []
+    filiais_encontradas.append({ 'filial_id' : 8, 'descricao' : 'RP', 'distancia' : 118 })
+    filiais_encontradas.append({ 'filial_id' : 9, 'descricao' : 'Campinas', 'distancia' : 427 })
+    filiais_encontradas.append({ 'filial_id' : 10, 'descricao' : 'Franca', 'distancia' : 5 })
+
+    #newlist = sorted(filiais_encontradas, key=lambda k: k['distancia'])
+
+    return filiais_encontradas.sort(key=operator.itemgetter('distancia'))
+
+
+
+    # ordenar distancia ascendente............
+
+
+
+
