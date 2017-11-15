@@ -27,24 +27,30 @@ O objetivo do magalu-finder é procurar um determinado produto na loja mais pró
 
     $ source ~/env-ml/bin/activate
 
-    $ pip requirements.txt !!!!!!!!!!!!!!!!!!!!!
+    $ git clone https://github.com/projetormb/magalu-finder.git
+
+    $ cd ./magalu-finder/
+
+    $ pip install -r requirements.txt
     ```
 
-#### Download do repositório:
 
-    $ git clone https://github.com/projetormb/magalu-finder.git
  
 
 #### Execução dos serviços (Flask) :
 
-    $ cd ./magalu-finder/src
+    ```sh
+    $ cd ./magalu-finder/src/
  
     $ python rotas.py
 
     Acesse em seu navegador:  http://127.0.0.1:5000/
+    ```
 
 #### Execução dos testes:
 
-    $ cd ./magalu-finder/src
+    ```sh
+    $ cd ./magalu-finder/src/
  
     $ python tests.py
+    ```

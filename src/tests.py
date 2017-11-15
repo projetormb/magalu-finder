@@ -217,7 +217,6 @@ class MyTest(unittest2.TestCase):
 
 
 
-        """
         print ' '
         print '> Testando distância entre 2 CEPs:'
         print ' '
@@ -297,6 +296,7 @@ class MyTest(unittest2.TestCase):
         self.assertEqual(test_select_all_produtos(), True)
 
 
+        # Inserção de Estoque (Produto na Loja)
 
         self.assertEqual(test_insert_estoque(1, 1, 1), True)
         self.assertEqual(test_insert_estoque(1, 4, 2), True)
@@ -333,8 +333,9 @@ class MyTest(unittest2.TestCase):
         self.assertEqual(test_insert_estoque(5, 8, 1), True)
         self.assertEqual(test_insert_estoque(5, 9, 1), True)
         self.assertEqual(test_insert_estoque(5, 10, 1), True)
-        """
-        
+
+
+        # Testes de Lojas mais próximas.       
 
         self.assertEqual(test_filial_mais_proxima(1, '14401-216'), True)
         self.assertEqual(test_filial_mais_proxima(1, '69005-140'), True)
