@@ -2,6 +2,8 @@
 
 import requests
 
+from estoque import Estoque
+
 def api_distancia_google(cep_origem, cep_destino):
     ret = { 'success' : False }
 
@@ -65,23 +67,32 @@ def api_distancia_google(cep_origem, cep_destino):
     return ret
 
 
-def api_filiais_mais_proximas(produto_id, cep_cliente):
-    max_filiais = 3
+def api_lojas_mais_proximas(produto_id, cep_cliente):
 
+    estoque = Estoque()
 
-    filiais_encontradas = []
-    filiais_encontradas.append({ 'filial_id' : 8, 'descricao' : 'RP', 'distancia' : 118 })
-    filiais_encontradas.append({ 'filial_id' : 9, 'descricao' : 'Campinas', 'distancia' : 427 })
-    filiais_encontradas.append({ 'filial_id' : 10, 'descricao' : 'Franca', 'distancia' : 5 })
+    lojas_encontradas = estoque.select_lojas_com_produto(produto_id)
 
-    #newlist = sorted(filiais_encontradas, key=lambda k: k['distancia'])
+    if len(lojas_encontradas) > 0:
+        print 'sim'
 
-    return filiais_encontradas.sort(key=operator.itemgetter('distancia'))
+        for f in lojas_encontradas:
 
+            f['distancia'] = 0
+            f['km'] = ''
 
+            cep_loja = f['cep']
 
-    # ordenar distancia ascendente............
+            ret_google = api_distancia_google(cep_loja, cep_cliente)
 
+            if 'distance' in ret_google:
 
+                distance = ret_google['distance']
 
+                if 'value' in distance:
+                    f['distancia'] = distance['value']
+                    f['km'] = distance['text']
 
+        return sorted(lojas_encontradas, key=lambda k: k['distancia'])
+
+    return lojas_encontradas

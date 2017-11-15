@@ -13,7 +13,9 @@ class Tabela(object):
 
 
     def prepare_tests(self):
-        return  self.execute_query("""CALL `mbcorporate01`.`clear_db`();""", [])
+        q = 'CALL ' + self.dbname + '.clear_db();'
+        return  self.execute_query(q, [])
+        #return  self.execute_query("""CALL `mbcorporate01`.`clear_db`();""", [])
 
 
     def execute_query(self, query, values):
@@ -24,14 +26,16 @@ class Tabela(object):
             self.cursor.execute(query, values)
             connection.commit()
             ret = True
-        except:
+        except TypeError as e:
+            print 'erro ' + str(e)
             connection.rollback()
         connection.close()
         return ret
 
 
     def count(self):
-        q = """SELECT COUNT(*) FROM `mbcorporate01`.`""" + self.table_name + """`"""
+        #q = """SELECT COUNT(*) FROM `mbcorporate01`.`""" + self.table_name + """`"""
+        q = 'SELECT COUNT(*) FROM ' + self.dbname + '.' + self.table_name
 
         self.execute_query(q, [])
 

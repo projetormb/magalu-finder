@@ -2,7 +2,7 @@
 
 import unittest2
 
-from apis import api_distancia_google
+from apis import api_distancia_google, api_lojas_mais_proximas
 
 from banco import Tabela
 from lojas import Lojas
@@ -24,7 +24,6 @@ def test_consumo_google(cep_origem, cep_destino, distanciaEsperada, **kwargs):
 
     if 'success' in ret:
         if ret['success'] is True:
-            
 
             if 'distance' in ret:
 
@@ -38,6 +37,12 @@ def test_consumo_google(cep_origem, cep_destino, distanciaEsperada, **kwargs):
                         print '  - OK'
                         print ' '
                         return True
+
+
+
+    if 'msg' in ret:
+        print '  - Message: ' + ret['msg']
+        print ' '
 
 
     print '  - retornando False'
@@ -161,6 +166,8 @@ def test_quantidade_produtos():
 
 def test_insert_estoque(produto_id, loja_id, quantidade):
 
+    print u'  - Inserindo Estoque'
+
     estoque = Estoque()
     ret = estoque.inserir(produto_id, loja_id, quantidade)
 
@@ -174,6 +181,26 @@ def test_insert_estoque(produto_id, loja_id, quantidade):
     return ret
 
 
+def test_filial_mais_proxima(produto_id, cep_cliente):
+
+    print u'  - Analisando Filial mais próxima para Produto :' + str(produto_id)
+
+    x = api_lojas_mais_proximas(produto_id, cep_cliente)
+
+    if len(x) > 0:
+        loja_mais_proxima = x[0]
+
+        print '  - Loja mais próxima: ' + loja_mais_proxima['descricao']
+        print '  - KM: ' + loja_mais_proxima['km']
+        print '  - OK'
+        print ' '
+        return True
+
+    print x
+    print '  - ERRO'
+    print ' '
+
+    return False
 
 
 class MyTest(unittest2.TestCase):
@@ -189,6 +216,7 @@ class MyTest(unittest2.TestCase):
         print '========================================================================='
 
 
+
         """
         print ' '
         print '> Testando distância entre 2 CEPs:'
@@ -196,17 +224,17 @@ class MyTest(unittest2.TestCase):
 
         self.assertEqual(test_consumo_google('13201-031', '14401-216', 347889, Description='Jundiai para Franca'), True)
         self.assertEqual(test_consumo_google('13201-031', '14401-216', 347999, Description='Jundiai para Franca com distancia errada'), False)
-        self.assertEqual(test_consumo_google('69005-140', '14401-216', 3636904, Description='Manaus para Franca'), True)
+        self.assertEqual(test_consumo_google('69005-140', '14401-216', 3702935, Description='Manaus para Franca'), True)
         self.assertEqual(test_consumo_google('14401-216', '69005-140', 3623512, Description='Franca para Manaus'), True)
         self.assertEqual(test_consumo_google('14402-029', '02232-000', 413622, Description='Ceara para Guarulhos'), True)
 
         self.assertEqual(test_consumo_google('', '14402-029', 0, Description='CEP de Origem invalido'), False)
         self.assertEqual(test_consumo_google('14402-029', '', 0, Description='CEP de Destino invalido'), False)
         self.assertEqual(test_consumo_google('69005-140', '14401-216', 0, Description='Distancia nao informada'), False)
-        """
 
 
-        """
+
+
         print ' '
         print '> Testando banco de dados:'
         print ' '
@@ -222,7 +250,7 @@ class MyTest(unittest2.TestCase):
         self.assertEqual(test_insert_loja(u'Feira de Santana - Conselheiro', '44002-128'), True)
         self.assertEqual(test_insert_loja(u'Feira de Santana - Senhor', '44002-200'), True)
         self.assertEqual(test_insert_loja(u'Feira de Santana - Marechal', '44002-064'), True)
-        self.assertEqual(test_insert_loja(u'Ribeirão Preto', '15002-069'), True)
+        self.assertEqual(test_insert_loja(u'Ribeirão Preto', '14010-190'), True)
 
         self.assertEqual(test_quantidade_lojas(), 4)
 
@@ -267,11 +295,51 @@ class MyTest(unittest2.TestCase):
         self.assertEqual(test_quantidade_produtos(), 16)
 
         self.assertEqual(test_select_all_produtos(), True)
+
+
+
+        self.assertEqual(test_insert_estoque(1, 1, 1), True)
+        self.assertEqual(test_insert_estoque(1, 4, 2), True)
+        self.assertEqual(test_insert_estoque(1, 5, 2), True)
+        self.assertEqual(test_insert_estoque(1, 7, 1), True)
+        self.assertEqual(test_insert_estoque(1, 9, 4), True)
+
+        self.assertEqual(test_insert_estoque(2, 2, 1), True)
+        self.assertEqual(test_insert_estoque(2, 3, 2), True)
+        self.assertEqual(test_insert_estoque(2, 8, 2), True)
+        self.assertEqual(test_insert_estoque(2, 7, 1), True)
+        self.assertEqual(test_insert_estoque(2, 10, 4), True)
+
+        self.assertEqual(test_insert_estoque(3, 5, 1), True)
+        self.assertEqual(test_insert_estoque(3, 6, 2), True)
+        self.assertEqual(test_insert_estoque(3, 7, 2), True)
+        self.assertEqual(test_insert_estoque(3, 8, 1), True)
+        self.assertEqual(test_insert_estoque(3, 9, 4), True)
+
+
+        self.assertEqual(test_insert_estoque(4, 1, 1), True)
+        self.assertEqual(test_insert_estoque(4, 2, 2), True)
+        self.assertEqual(test_insert_estoque(4, 3, 2), True)
+        self.assertEqual(test_insert_estoque(4, 4, 1), True)
+        self.assertEqual(test_insert_estoque(4, 5, 4), True)
+
+        self.assertEqual(test_insert_estoque(5, 1, 1), True)
+        self.assertEqual(test_insert_estoque(5, 2, 1), True)
+        self.assertEqual(test_insert_estoque(5, 3, 1), True)
+        self.assertEqual(test_insert_estoque(5, 4, 1), True)
+        self.assertEqual(test_insert_estoque(5, 5, 1), True)
+        self.assertEqual(test_insert_estoque(5, 6, 1), True)
+        self.assertEqual(test_insert_estoque(5, 7, 1), True)
+        self.assertEqual(test_insert_estoque(5, 8, 1), True)
+        self.assertEqual(test_insert_estoque(5, 9, 1), True)
+        self.assertEqual(test_insert_estoque(5, 10, 1), True)
         """
+        
 
+        self.assertEqual(test_filial_mais_proxima(1, '14401-216'), True)
+        self.assertEqual(test_filial_mais_proxima(1, '69005-140'), True)
 
-        self.assertEqual(test_insert_estoque(15, 4, 1), True)
-
+        self.assertEqual(test_filial_mais_proxima(2, '69005-140'), True)
 
         print 'Fim dos testes.'
         print '========================================================================='
